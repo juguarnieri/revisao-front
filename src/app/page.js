@@ -1,28 +1,25 @@
 "use client";
-import React from 'react';
-import {useState} from 'react';
-import CardPessoas from './CardPessoas.jsx';
+import { useState, useEffect } from 'react';
+import { productsData } from '../data/products.js';
+import ProductCard from '@/components/ProductCard/ProductCard.jsx';
+import Header from '@/components/Header/Header.jsx';
+import styles from './page.module.css';
 
-export default function Page() {
-  const [pessoas, setPessoas] = useState([
-    {nome: 'João', email: 'joao@gmail.com', idade: 30},
-    {nome: 'Maria', email: 'mari@gmail.com', idade: 25},
-    {nome: 'Pedro', email: 'joao@gmail.com'},
-    {nome: 'Ana', email: 'aninha@gmail.com', idade: 22},
-    {nome: 'Lucas'},
-  ])
+export default function HomePage() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    setProducts(productsData);
+  }, []);
+
   return (
-    <div>
-      <h1>Lista de Pessoas</h1>
-      {pessoas.map((pessoa, index) => (
-        <CardPessoas
-          key={index}
-          nome={pessoa.nome} 
-          email={pessoa.email}
-          idade={pessoa.idade}
-        />
-      ))}
-
+    <div className={styles.container}>
+      <Header products={products} /> 
+      <div className={styles.products}>
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
-  ) ;
+    </div>
+  );
 }
